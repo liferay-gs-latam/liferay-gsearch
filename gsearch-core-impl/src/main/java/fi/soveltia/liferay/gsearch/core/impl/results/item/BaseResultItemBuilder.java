@@ -1,6 +1,16 @@
 
 package fi.soveltia.liferay.gsearch.core.impl.results.item;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import javax.portlet.WindowState;
+
 import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetRenderer;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
@@ -26,16 +36,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-import javax.portlet.WindowState;
 
 import fi.soveltia.liferay.gsearch.core.api.constants.ParameterNames;
 import fi.soveltia.liferay.gsearch.core.api.query.context.QueryContext;
@@ -93,7 +93,7 @@ public abstract class BaseResultItemBuilder implements ResultItemBuilder {
 		String description = null;
 
 		description = document.get(
-			locale, Field.SNIPPET + StringPool.UNDERLINE + Field.CONTENT);
+			locale, Field.SNIPPET + StringPool.UNDERLINE + Field.DESCRIPTION);
 
 		if (Validator.isNull(description)) {
 

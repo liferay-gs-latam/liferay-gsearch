@@ -22,4 +22,6 @@ dependencies {
 
 	compileOnly project(":modules:liferay-gsearch:gsearch-core-api")
 	compileOnly project(":modules:liferay-gsearch:gsearch-query-api")
+	
+	compileOnly fileTree(dir:'src/main/resources/libs',include:['*.jar'])
 }

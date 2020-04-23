@@ -1,6 +1,19 @@
 
 package fi.soveltia.liferay.gsearch.core.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -18,19 +31,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.facet.Facet;
 import com.liferay.portal.kernel.search.facet.SimpleFacet;
 import com.liferay.portal.kernel.search.facet.config.FacetConfiguration;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Modified;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.liferay.portal.kernel.search.filter.TermsFilter;
 
 import fi.soveltia.liferay.gsearch.core.api.GSearch;
 import fi.soveltia.liferay.gsearch.core.api.configuration.ConfigurationHelper;
@@ -41,6 +42,7 @@ import fi.soveltia.liferay.gsearch.core.api.query.context.QueryContext;
 import fi.soveltia.liferay.gsearch.core.api.query.postprocessor.QueryPostProcessor;
 import fi.soveltia.liferay.gsearch.core.api.results.ResultsBuilder;
 import fi.soveltia.liferay.gsearch.core.impl.configuration.ModuleConfiguration;
+import fi.soveltia.liferay.gsearch.core.impl.util.StructureFacetFilterUtil;
 
 /**
  * GSearch service implementation.
@@ -276,6 +278,8 @@ public class GSearchImpl implements GSearch {
 			new String[] {
 				Field.CONTENT, Field.TITLE,
 			});
+		
+		TermsFilter termsFilter =  _structureFacetFilterUtil.getTermsFilterFromConfigurationField();
 
 		query.setQueryConfig(queryConfig);
 	}
@@ -311,4 +315,7 @@ public class GSearchImpl implements GSearch {
 
 	@Reference
 	private ResultsBuilder _resultsBuilder;
+	
+	@Reference
+	private StructureFacetFilterUtil _structureFacetFilterUtil;
 }
